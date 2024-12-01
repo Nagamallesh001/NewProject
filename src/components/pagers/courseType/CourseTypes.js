@@ -31,7 +31,7 @@ function CourseTypes() {
       : 'https://eleven-60f19-default-rtdb.firebaseio.com/course-types.json';     
       
       // this data has shows in ( firebase )
-
+ 
     fetch(url, {
       method,
       headers: { 'Content-Type': 'application/json' },
