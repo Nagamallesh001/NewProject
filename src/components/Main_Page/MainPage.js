@@ -7,13 +7,14 @@ import Courses from '../pagers/course/Courses';
 
 function MainPage() {
   return (
+    
     <Router>
       <div>
         <nav>     
                <ul>
-            <li><Link to="/course-types">Course Types</Link></li>
-            <li><Link to="/courses">Courses</Link></li>
             <li><Link to="/registrations">Student Registrations</Link></li>
+            <li><Link to="/courses">Courses</Link></li>
+            <li><Link to="/course-types">Course Types</Link></li>
           </ul>     
              </nav>
         <Routes>
