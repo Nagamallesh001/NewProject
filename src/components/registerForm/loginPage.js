@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import MainPage from '../Main_Page/MainPage';
 
-function Login() {
+function Login({ onLoginSuccess }) {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,53 +27,47 @@ function Login() {
     const newErrors = validate();
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      setIsSubmitting(true);
+      setIsSubmitting(false);
 
-      // Simulate an API call for login (use actual API request here)
       setTimeout(() => {
-        alert('Login successful');
-        setIsSubmitting(false);
+        if (formData.username === 'admin' || formData.password === 'password') {
+          alert('Login successful');
+          onLoginSuccess();
+        } else {
+          setErrors({ general: 'Invalid username or password' });
+        }
+        setIsSubmitting(true);
       }, 1000);
     }
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto' }}>
-      <h2>Login</h2>
+    <>
+    {isSubmitting?<MainPage/>:
+    <div className="loginDiv" style={{ maxWidth: '400px', margin: 'auto' }}>
+      <h2 style={{ color: 'white' }}>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            placeholder="Enter your username"
-          />
+          <input type="text" id="username" name="username" value={formData.username} onChange={handleChange}
+            placeholder="Enter your username" />
           {errors.username && <p style={{ color: 'red' }}>{errors.username}</p>}
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            placeholder="Enter your password"
-          />
+          <input type="password" id="password" name="password" value={formData.password} onChange={handleChange}
+            placeholder="Enter your password" />
           {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
         </div>
+        {errors.general && <p style={{ color: 'red' }}>{errors.general}</p>}
         <div>
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Logging in...' : 'Login'}
           </button>
         </div>
       </form>
-    </div>
+    </div>}
+    </>
   );
 }
 

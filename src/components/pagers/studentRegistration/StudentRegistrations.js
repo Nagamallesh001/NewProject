@@ -6,18 +6,16 @@ const StudentRegistrations = () => {
   const [formData, setFormData] = useState({ name: '', email: '', course: '' });
   const [nextId, setNextId] = useState(1); // New state to track the next available ID
 
-  // Load students from localStorage when the component mounts
   useEffect(() => {
     const savedStudents = JSON.parse(localStorage.getItem('students'));
     if (savedStudents) {
       setStudents(savedStudents);
-      // Set the nextId based on the highest ID in the saved students
+
       const highestId = savedStudents.length > 0 ? Math.max(...savedStudents.map(student => student.id)) : 0;
       setNextId(highestId + 1); // Next ID will be one higher than the highest ID
     }
   }, []);
 
-  // Save students to localStorage whenever the list changes
   useEffect(() => {
     localStorage.setItem('students', JSON.stringify(students));
   }, [students]);
@@ -33,7 +31,7 @@ const StudentRegistrations = () => {
     const newStudent = { id: nextId, ...formData };
     setStudents([...students, newStudent]);
     setFormData({ name: '', email: '', course: '' });
-    setNextId(nextId + 1); // Increment the nextId for the next student
+    setNextId(nextId + 1); 
     alert('Student registered successfully!');
   };
 

@@ -8,7 +8,6 @@ function CourseTypes() {
   const [isEditing, setIsEditing] = useState(false); // Edit mode flag
   const [editId, setEditId] = useState(null); // ID of the course type being edited
 
-  // Load course types from Firebase when the component mounts
   useEffect(() => {
     fetch('https://eleven-60f19-default-rtdb.firebaseio.com/course-types.json')
       .then((response) => response.json())
@@ -30,8 +29,8 @@ function CourseTypes() {
       ? `https://eleven-60f19-default-rtdb.firebaseio.com/course-types/${editId}.json`
       : 'https://eleven-60f19-default-rtdb.firebaseio.com/course-types.json';     
       
-      // this data has shows in ( firebase )
-
+      // this data has saved in ( firebase )
+ 
     fetch(url, {
       method,
       headers: { 'Content-Type': 'application/json' },
@@ -48,17 +47,17 @@ function CourseTypes() {
         } 
         else {
           const newId = courseTypes.length ? Math.max(...courseTypes.map((type) => parseInt(type.id))) + 1 : 1;
-          const newType = { id: newId, ...formData }; // Assign the new sequential ID
+          const newType = { id: newId, ...formData }; 
           setCourseTypes([...courseTypes, newType]);
         }
-        setFormData({ name: '', description: '' }); // Reset the form
+        setFormData({ name: '', description: '' }); 
       })
       .catch((error) => console.error('Error submitting course type:', error));
   };
 
   const handleEdit = (type) => {
     setFormData({ name: type.name, description: type.description });
-    setEditId(type.id); // Set the ID of the course type to be edited
+    setEditId(type.id); 
     setIsEditing(true);
   };
 
@@ -67,7 +66,6 @@ function CourseTypes() {
       const url = `https://eleven-60f19-default-rtdb.firebaseio.com/course-types/${id}.json`;
       fetch(url, { method: 'DELETE' })
         .then(() => {
-          // Remove the deleted course type from the state using the ID
           setCourseTypes(courseTypes.filter((type) => type.id !== id));
         })
         .catch((error) => {
